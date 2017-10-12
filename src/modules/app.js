@@ -10,7 +10,9 @@ import styles from './styles.scss';
 
 const colors = new ColorsModel();
 const settings = new SettingsModel({
-  nodeRadius: 8
+  nodeRadius: 8,
+  width: 800,
+  height: 600
 });
 const game = new GameModel(settings);
 

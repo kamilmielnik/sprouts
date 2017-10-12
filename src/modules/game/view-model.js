@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { inject, observer } from 'mobx-react';
-import Drawing from 'modules/drawing/view-model';
-import Edges from 'modules/edges/view-model';
-import Nodes from 'modules/nodes/view-model';
+import GameView from './view';
 
-const width = 800;
-const height = 600;
 const MOUSE_MOVE_THROTTLE = 20;
 
-@inject('colors', 'game')
+@inject('game', 'settings')
 @observer
 class Game extends Component {
   static propTypes = {
     className: PropTypes.string,
-    colors: PropTypes.object.isRequired,
-    game: PropTypes.object.isRequired
+    game: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired
   };
 
   onClick = (event) => {
@@ -61,22 +57,16 @@ class Game extends Component {
   }
 
   render() {
-    const { className, colors } = this.props;
+    const { settings, ...props } = this.props;
 
     return (
-      <svg
-        className={className}
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
+      <GameView
+        width={settings.width}
+        height={settings.height}
         onClick={this.onClick}
         onMouseUp={this.onMouseUp}
-        onMouseMove={this.onMouseMove}>
-        <rect x={0} y={0} width={width} height={height} fill={colors.background} />
-        <Edges />
-        <Drawing />
-        <Nodes />
-      </svg>
+        onMouseMove={this.onMouseMove}
+        {...props} />
     );
   }
 }
