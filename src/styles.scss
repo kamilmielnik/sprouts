@@ -1,0 +1,27 @@
+@import 'normalize.css';
+
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  background: #eee;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+h1, h2, h3, h4, p {
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  margin: 0;
+}
