@@ -5,7 +5,8 @@ import SettingsModel from 'modules/settings/model';
 import GameModel from 'modules/game/model';
 import Node from 'modules/node/model';
 import Game from 'modules/game/view-model';
-import Button from 'components/button';
+import StatusBar from 'modules/status-bar/view-model';
+import Controls from 'modules/controls/view-model';
 import styles from './styles.scss';
 
 const colors = new ColorsModel();
@@ -27,10 +28,9 @@ const App = () => (
     game={game}
     settings={settings}>
     <div className={styles.app}>
+      <StatusBar className={styles.statusBar} />
       <Game />
-      <Button className={styles.button} onClick={() => game.start()}>
-        Start game
-      </Button>
+      <Controls className={styles.controls} />
     </div>
   </Provider>
 );
