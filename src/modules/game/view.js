@@ -5,12 +5,14 @@ import Drawing from './components/drawing';
 import Edges from './components/edges';
 import Nodes from './components/nodes';
 
-const GameView = ({ height, width, ...props }) => (
+const GameView = ({ height, width, onClick, onMouseMove, onMouseUp }) => (
   <svg
     height={height}
     width={width}
     viewBox={`0 0 ${width} ${height}`}
-    {...props}>
+    onClick={onClick}
+    onMouseMove={onMouseMove}
+    onMouseUp={onMouseUp}>
     <Background />
     <Edges />
     <Drawing />
@@ -20,7 +22,10 @@ const GameView = ({ height, width, ...props }) => (
 
 GameView.propTypes = {
   height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired
+  width: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onMouseMove: PropTypes.func.isRequired,
+  onMouseUp: PropTypes.func.isRequired
 };
 
 export default GameView;
