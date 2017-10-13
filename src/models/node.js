@@ -11,10 +11,6 @@ class Node {
     this.y = y;
   }
 
-  @action addEdge(edge) {
-    this.edges.push(edge);
-  }
-
   @computed get numberOfEdges() {
     return this.edges.filter(
       ({ source, middle, target }) => [ source, middle, target ].includes(this)
@@ -35,6 +31,17 @@ class Node {
 
   @computed get isAlive() {
     return !this.isDead;
+  }
+
+  @computed get asCircle() {
+    return {
+      x: this.x,
+      y: this.y
+    };
+  }
+
+  @action addEdge(edge) {
+    this.edges.push(edge);
   }
 }
 

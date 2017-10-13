@@ -24,6 +24,47 @@ class Game {
     this.settings = settings;
   }
 
+  @computed get canDraw() {
+    return this.state.canDraw;
+  }
+
+  anyNodeCollidesWithCircle(circle) {
+    const { nodes, settings: { nodeRadius } } = this;
+    return nodes.some((node) => circlesCollide(circle, {
+      x: node.x,
+      y: node.y,
+      radius: nodeRadius
+    }));
+  }
+
+  canAddNode({ x, y }) {
+    const { settings: { nodeRadius }, state: { canAddNode } } = this;
+    return canAddNode && !this.anyNodeCollidesWithCircle({ x, y, radius: nodeRadius });
+  }
+
+  canSelectNode(node) {
+    const { state: { canSelectNode } } = this;
+    return canSelectNode && !node.isDead;
+  }
+
+  canClosePath(node) {
+    const { state: { canDraw } } = this;
+    const isCreatingLoop = this.selectedNode === node;
+    const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
+    return canDraw && this.selectedNode !== null && canClosePathOnNode;
+  }
+
+  canBreakPath(node) {
+    const { state: { canDraw } } = this;
+    const path = [ ...this.path.peek() ];
+    if (node) {
+      path.push({ x: node.x, y: node.y });
+    }
+    return Boolean(canDraw && (this.selectedNode !== null && (
+      pathSelfCollides(path) || this.edges.some((edge) => pathsCollide(edge.path, path))
+    )));
+  }
+
   @action start() {
     this.state = STATE_SELECTING_NODE;
   }
@@ -84,41 +125,6 @@ class Game {
 
   @action draw(position) {
     this.path.push(position);
-  }
-
-  @computed get canDraw() {
-    return this.state.canDraw;
-  }
-
-  canAddNode({ x, y }) {
-    const { nodes, settings: { nodeRadius }, state: { canAddNode } } = this;
-    return canAddNode && nodes.every((node) => !circlesCollide(
-      { x, y, radius: nodeRadius },
-      { x: node.x, y: node.y, radius: nodeRadius }
-    ));
-  }
-
-  canSelectNode(node) {
-    const { state: { canSelectNode } } = this;
-    return canSelectNode && !node.isDead;
-  }
-
-  canClosePath(node) {
-    const { state: { canDraw } } = this;
-    const isCreatingLoop = this.selectedNode === node;
-    const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
-    return canDraw && this.selectedNode !== null && canClosePathOnNode;
-  }
-
-  canBreakPath(node) {
-    const { state: { canDraw } } = this;
-    const path = [ ...this.path.peek() ];
-    if (node) {
-      path.push({ x: node.x, y: node.y });
-    }
-    return Boolean(canDraw && (this.selectedNode !== null && (
-      pathSelfCollides(path) || this.edges.some((edge) => pathsCollide(edge.path, path))
-    )));
   }
 }
 
