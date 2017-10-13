@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx';
-import Edge from 'modules/edge/model';
-import Node from 'modules/node/model';
+import Edge from 'models/edge';
+import Node from 'models/node';
 import { circlesCollide, pathSelfCollides, pathsCollide, getPathCenterIndex } from 'utils';
 
 const STATE_DISABLED = {

@@ -1,7 +1,6 @@
-import ColorsModel from 'modules/colors/model';
-import SettingsModel from 'modules/settings/model';
-import GameModel from 'modules/game/model';
-import Node from 'modules/node/model';
+import ColorsModel from 'models/colors';
+import GameModel from 'models/game';
+import SettingsModel from 'models/settings';
 
 const colors = new ColorsModel();
 const settings = new SettingsModel({
