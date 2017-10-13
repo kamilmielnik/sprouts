@@ -1,7 +1,7 @@
 import React from 'react';
-import Game from 'modules/game/view-model';
-import StatusBar from 'modules/status-bar/view-model';
-import Controls from 'modules/controls/view-model';
+import Game from 'modules/game';
+import StatusBar from 'modules/status-bar';
+import Controls from 'modules/controls';
 import styles from './styles.scss';
 
 const App = () => (

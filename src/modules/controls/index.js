@@ -5,8 +5,9 @@ import ControlsView from './view';
 
 @inject('game')
 @observer
-class ControlsViewModel extends Component {
+class Controls extends Component {
   static propTypes = {
+    className: PropTypes.string,
     game: PropTypes.object.isRequired
   };
 
@@ -16,12 +17,14 @@ class ControlsViewModel extends Component {
   };
 
   render() {
+    const { className } = this.props;
+
     return (
       <ControlsView
-        onStartGameClick={this.onStartGameClick}
-        {...this.props} />
+        className={className}
+        onStartGameClick={this.onStartGameClick} />
     );
   }
 }
 
-export default ControlsViewModel;
+export default Controls;

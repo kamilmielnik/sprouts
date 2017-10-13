@@ -57,16 +57,16 @@ class Game extends Component {
   }
 
   render() {
-    const { settings, ...props } = this.props;
+    const { className, settings } = this.props;
 
     return (
       <GameView
+        className={className}
         width={settings.width}
         height={settings.height}
         onClick={this.onClick}
         onMouseUp={this.onMouseUp}
-        onMouseMove={this.onMouseMove}
-        {...props} />
+        onMouseMove={this.onMouseMove} />
     );
   }
 }

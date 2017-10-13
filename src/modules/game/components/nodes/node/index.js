@@ -5,7 +5,7 @@ import NodeView from './view';
 
 @inject('colors', 'game', 'settings')
 @observer
-class NodeViewModel extends Component {
+class Node extends Component {
   static propTypes = {
     colors: PropTypes.object.isRequired,
     game: PropTypes.object.isRequired,
@@ -54,4 +54,4 @@ class NodeViewModel extends Component {
   }
 }
 
-export default NodeViewModel;
+export default Node;

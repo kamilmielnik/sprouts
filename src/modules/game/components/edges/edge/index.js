@@ -5,7 +5,7 @@ import Path from 'components/path';
 
 @inject('colors')
 @observer
-class EdgeViewModel extends Component {
+class Edge extends Component {
   static propTypes = {
     colors: PropTypes.object.isRequired,
     edge: PropTypes.shape({
@@ -22,4 +22,4 @@ class EdgeViewModel extends Component {
   }
 }
 
-export default EdgeViewModel;
+export default Edge;

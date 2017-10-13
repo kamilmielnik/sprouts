@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Node from 'modules/node/view-model';
+import Node from './node';
 
 @inject('game')
 @observer

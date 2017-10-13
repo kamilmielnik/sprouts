@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Background from './components/background/view-model';
-import Drawing from './components/drawing/view-model';
-import Edges from './components/edges/view-model';
-import Nodes from './components/nodes/view-model';
+import Background from './components/background';
+import Drawing from './components/drawing';
+import Edges from './components/edges';
+import Nodes from './components/nodes';
 
 const GameView = ({ height, width, ...props }) => (
   <svg

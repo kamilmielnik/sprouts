@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Edge from 'modules/edge/view-model';
+import Edge from './edge';
 
 @inject('game')
 @observer

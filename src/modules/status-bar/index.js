@@ -5,8 +5,9 @@ import StatusBarView from './view';
 
 @inject('game')
 @observer
-class StatusBarViewModel extends Component {
+class StatusBar extends Component {
   static propTypes = {
+    className: PropTypes.string,
     game: PropTypes.object.isRequired
   };
 
@@ -25,12 +26,14 @@ class StatusBarViewModel extends Component {
   };
 
   render() {
+    const { className } = this.props;
+
     return (
       <StatusBarView
-        message={this.getMessage()}
-        {...this.props} />
+        className={className}
+        message={this.getMessage()} />
     );
   }
 }
 
-export default StatusBarViewModel;
+export default StatusBar;
