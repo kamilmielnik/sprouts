@@ -4,6 +4,7 @@ import Background from './components/background';
 import Drawing from './components/drawing';
 import Edges from './components/edges';
 import Nodes from './components/nodes';
+import NodeCandidate from './components/node-candidate';
 
 const GameView = ({ height, width, onClick, onMouseMove, onMouseUp }) => (
   <svg
@@ -17,6 +18,7 @@ const GameView = ({ height, width, onClick, onMouseMove, onMouseUp }) => (
     <Edges />
     <Drawing />
     <Nodes />
+    <NodeCandidate />
   </svg>
 );
 

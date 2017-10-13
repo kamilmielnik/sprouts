@@ -27,7 +27,7 @@ class Game extends Component {
     if (event.target.tagName === 'rect') {
       const position = this.getEventPosition(event);
       const { game } = this.props;
-      if (game.canDraw) {
+      if (game.canDraw(position)) {
         game.draw(position);
       }
       if (game.canBreakPath()) {

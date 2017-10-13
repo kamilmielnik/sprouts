@@ -10,6 +10,7 @@ export default () => {
   class ColorsModel {
     @observable background = SHADE_5;
     @observable node = SHADE_2;
+    @observable nodeCandidate = 'rgba(255, 255, 255, 0.85)';
     @observable selectedNode = SHADE_1;
     @observable deadNode = '#888';
     @observable path = SHADE_1;

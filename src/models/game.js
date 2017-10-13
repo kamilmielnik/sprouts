@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { circlesCollide, pathSelfCollides, pathsCollide, getPathCenterIndex } from 'utils';
 
 const STATE_DISABLED = {
@@ -16,11 +16,8 @@ export default (Edge, Node, settings) => {
     @observable nodes = [];
     @observable selectedNode = null;
     @observable path = [];
+    @observable nodeCandidate = null;
     @observable state = STATE_ADDING_NODES;
-
-    @computed get canDraw() {
-      return this.state.canDraw;
-    }
 
     anyNodeCollidesWithCircle(circle) {
       return this.nodes.some((node) => circlesCollide(circle, {
@@ -38,18 +35,6 @@ export default (Edge, Node, settings) => {
       });
     }
 
-    canSelectNode(node) {
-      const { state: { canSelectNode } } = this;
-      return canSelectNode && !node.isDead;
-    }
-
-    canClosePath(node) {
-      const { state: { canDraw } } = this;
-      const isCreatingLoop = this.selectedNode === node;
-      const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
-      return canDraw && this.selectedNode !== null && canClosePathOnNode;
-    }
-
     canBreakPath(node) {
       const { state: { canDraw } } = this;
       const path = [ ...this.path.peek() ];
@@ -61,8 +46,26 @@ export default (Edge, Node, settings) => {
       )));
     }
 
+    canClosePath(node) {
+      const { state: { canDraw } } = this;
+      const isCreatingLoop = this.selectedNode === node;
+      const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
+      return canDraw && this.selectedNode !== null && canClosePathOnNode;
+    }
+
+    canDraw() {
+      const { canAddNode, canDraw } = this.state;
+      return canDraw || canAddNode;
+    }
+
+    canSelectNode(node) {
+      const { state: { canSelectNode } } = this;
+      return canSelectNode && !node.isDead;
+    }
+
     @action start() {
       this.state = STATE_SELECTING_NODE;
+      this.nodeCandidate = null;
     }
 
     @action addEdge({ source, target, path }) {
@@ -79,9 +82,10 @@ export default (Edge, Node, settings) => {
       this.edges.push(targetEdge);
     }
 
-    @action addNode({ x, y }) {
-      const node = new Node({ x, y });
+    @action addNode(position) {
+      const node = new Node(position);
       this.nodes.push(node);
+      this.nodeCandidate = null;
       return node;
     }
 
@@ -120,7 +124,12 @@ export default (Edge, Node, settings) => {
     }
 
     @action draw(position) {
-      this.path.push(position);
+      const { canAddNode } = this.state;
+      if (canAddNode) {
+        this.nodeCandidate = new Node(position);
+      } else {
+        this.path.push(position);
+      }
     }
   }
 
