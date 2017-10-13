@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { pathToLines } from 'utils';
 
-const Path = ({ path, ...props }) => pathToLines(path).map((line, index) => (
-  <line key={index} {...line} {...props} />
+const Path = ({ color, path }) => pathToLines(path).map((line, index) => (
+  <line key={index} stroke={color} {...line} />
 ));
 
 Path.propTypes = {
+  color: PropTypes.string.isRequired,
   path: PropTypes.object.isRequired
 };
 

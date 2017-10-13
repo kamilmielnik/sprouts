@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Path from 'components/path';
 
 const EdgeView = ({ color, path }) => (
-  <Path path={path} stroke={color} />
+  <Path color={color} path={path}  />
 );
 
 EdgeView.propTypes = {

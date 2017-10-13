@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import EdgeView from './view';
+import Path from 'components/path';
 
 @inject('colors')
 @observer
@@ -17,7 +17,7 @@ class EdgeViewModel extends Component {
     const { colors, edge: { path } } = this.props;
 
     return (
-      <EdgeView color={colors.edge} path={path} />
+      <Path color={colors.edge} path={path} />
     );
   }
 }
