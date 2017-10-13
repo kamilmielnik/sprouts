@@ -322,7 +322,7 @@ module.exports = {
     'react/no-deprecated': 'error',
     'react/no-did-mount-set-state': 'error',
     'react/no-did-update-set-state': 'error',
-    'react/no-direct-mutation-state': 'error',
+    'react/no-direct-mutation-state': 'off',
     'react/no-is-mounted': 'error',
     'react/no-multi-comp': ['error', {
       'ignoreStateless': true

@@ -1,6 +1,11 @@
-import ColorsModel from 'models/colors';
-import GameModel from 'models/game';
-import SettingsModel from 'models/settings';
+import CreateColorsModel from 'models/colors';
+import CreateEdgeModel from 'models/edge';
+import CreateGameModel from 'models/game';
+import CreateNodeModel from 'models/node';
+import CreateSettingsModel from 'models/settings';
+
+const ColorsModel = CreateColorsModel();
+const SettingsModel = CreateSettingsModel();
 
 const colors = new ColorsModel();
 const settings = new SettingsModel({
@@ -8,10 +13,17 @@ const settings = new SettingsModel({
   width: 800,
   height: 600
 });
-const game = new GameModel(settings);
 
-export default {
+const EdgeModel = CreateEdgeModel();
+const NodeModel = CreateNodeModel(settings);
+const GameModel = CreateGameModel(EdgeModel, NodeModel, settings);
+
+const game = new GameModel();
+
+const state = {
   colors,
   game,
   settings
 };
+
+export default state;

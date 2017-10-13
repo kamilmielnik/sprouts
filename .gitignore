@@ -1,4 +1,5 @@
 ﻿*.log
 *.db
+*.txt
 node_modules/
 dist/
