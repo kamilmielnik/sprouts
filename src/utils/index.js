@@ -58,15 +58,13 @@ export const pathSelfCollides = (path) => {
 
 export const pathsCollide = (path1, path2) => {
   if (path1.length < MIN_POINTS_TO_COMPARE_PATHS || path2.length < MIN_POINTS_TO_COMPARE_PATHS) return false;
-  // const path1Domain = pathDomain(path1);
-  // const path2Domain = pathDomain(path2);
-  // TODO: optimize or not
-  // if (!domainsIntersect(path1Domain, path2Domain)) return false;
+  const path1Domain = pathDomain(path1);
+  const path2Domain = pathDomain(path2);
+  if (!domainsIntersect(path1Domain, path2Domain)) return false;
   const path1Segments = pathToSegments(path1);
-  const path1SegmentsNormalized = path1Segments.slice(1, -1);
   const path2Segments = pathToSegments(path2);
+  const path1SegmentsNormalized = path1Segments.slice(1, -1);
   const path2SegmentsNormalized = path2Segments.slice(1, -1);
-
   return path1SegmentsNormalized.some(
     (segment1) => path2Segments.some(
       (segment2) => segmentsIntersect(segment1, segment2)
