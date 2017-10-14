@@ -58,9 +58,6 @@ export const pathSelfCollides = (path) => {
 
 export const pathsCollide = (path1, path2) => {
   if (path1.length < MIN_POINTS_TO_COMPARE_PATHS || path2.length < MIN_POINTS_TO_COMPARE_PATHS) return false;
-  const path1Domain = pathDomain(path1);
-  const path2Domain = pathDomain(path2);
-  if (!domainsIntersect(path1Domain, path2Domain)) return false;
   const path1Segments = pathToSegments(path1);
   const path2Segments = pathToSegments(path2);
   const path1SegmentsNormalized = path1Segments.slice(1, -1);
@@ -106,32 +103,7 @@ export const pathToSegments = (path = []) => {
   return segments;
 };
 
-export const pathDomain = (path) => {
-  let minX = Number.MAX_VALUE;
-  let minY = Number.MAX_VALUE;
-  let maxX = Number.MIN_VALUE;
-  let maxY = Number.MIN_VALUE;
-  path.forEach(({ x, y }) => {
-    minX = Math.min(x, minX);
-    minY = Math.min(y, minY);
-    maxX = Math.max(x, maxX);
-    maxY = Math.max(y, maxY);
-  });
-  return { minX, minY, maxX, maxY };
-};
-
-export const domainsIntersect = (domain1, domain2) =>
-  xDomainIntersects(domain1, domain2) && yDomainIntersects(domain1, domain2);
-
-export const xDomainIntersects = (domain1, domain2) => [ domain1.minX, domain1.maxX ].some(
-  numberInRange(domain2.minX, domain2.maxX)
-);
-
-export const yDomainIntersects = (domain1, domain2) => [ domain1.minY, domain1.maxY ].some(
-  numberInRange(domain2.minY, domain2.maxY)
-);
-
-export const numberInRange = (min, max) => (number) => min <= number && number <= max;
+// export const numberInRange = (min, max) => (number) => min <= number && number <= max;
 
 export const segmentsIntersect = ({ a: p1, b: p2 }, { a: q1, b: q2 }) => {
   const s1 = { x: p2.x - p1.x, y: p2.y - p1.y };
