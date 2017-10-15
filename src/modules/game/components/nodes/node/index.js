@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import NodeView from 'components/node';
 
-@inject('colors', 'game', 'settings')
+@inject('colors', 'gameController', 'settings')
 @observer
 class Node extends Component {
   static propTypes = {
     colors: PropTypes.object.isRequired,
-    game: PropTypes.object.isRequired,
+    gameController: PropTypes.object.isRequired,
     node: PropTypes.shape({
       x: PropTypes.number.isRequired,
       y: PropTypes.number.isRequired
@@ -17,19 +17,13 @@ class Node extends Component {
   };
 
   onMouseDown = () => {
-    const { node, game } = this.props;
-    if (game.canSelectNode(node)) {
-      game.selectNode(node);
-    }
+    const { node, gameController } = this.props;
+    gameController.nodeMouseDown(node);
   };
 
   onMouseEnter = () => {
-    const { node, game } = this.props;
-    if (game.canClosePath(node)) {
-      game.closePath(node);
-    } else if (game.canBreakPath(node)) {
-      game.breakPath();
-    }
+    const { node, gameController } = this.props;
+    gameController.nodeMouseEnter(node);
   };
 
   getNodeColor = () => {

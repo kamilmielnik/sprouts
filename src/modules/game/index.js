@@ -6,33 +6,24 @@ import GameView from './view';
 
 const MOUSE_MOVE_THROTTLE = 20;
 
-@inject('game', 'settings')
+@inject('gameController', 'settings')
 @observer
 class Game extends Component {
   static propTypes = {
     className: PropTypes.string,
-    game: PropTypes.object.isRequired,
+    gameController: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired
   };
 
   onClick = (event) => {
     const point = this.getEventPoint(event);
-    const { game } = this.props;
-    if (game.canAddNode(point)) {
-      game.addNode(point);
-    }
+    this.props.gameController.click(point);
   };
 
   onMouseMoveThrottled = throttle((event) => {
     if (event.target.tagName === 'rect') {
       const point = this.getEventPoint(event);
-      const { game } = this.props;
-      if (game.canDraw(point)) {
-        game.draw(point);
-      }
-      if (game.canBreakPath()) {
-        game.breakPath();
-      }
+      this.props.gameController.mouseMove(point);
     }
   }, MOUSE_MOVE_THROTTLE);
 

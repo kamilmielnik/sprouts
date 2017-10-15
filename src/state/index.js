@@ -1,3 +1,4 @@
+import createGameController from 'controllers/game';
 import createCircleModel from 'models/circle';
 import createColorsModel from 'models/colors';
 import createEdgeModel from 'models/edge';
@@ -25,12 +26,14 @@ const Path = createPathModel({ Segment });
 const Point = createPointModel();
 const Node = createNodeModel({ Circle, Point, settings });
 const Game = createGameModel({ Edge, Node, Circle, Path, Point, settings });
-
 const game = new Game();
+const GameController = createGameController({ game });
+const gameController = new GameController();
 
 const state = {
   colors,
   game,
+  gameController,
   settings
 };
 
