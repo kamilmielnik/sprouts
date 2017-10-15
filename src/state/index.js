@@ -1,15 +1,15 @@
-import CreateCircleModel from 'models/circle';
-import CreateColorsModel from 'models/colors';
-import CreateEdgeModel from 'models/edge';
-import CreateGameModel from 'models/game';
-import CreateNodeModel from 'models/node';
-import CreatePathModel from 'models/path';
-import CreatePointModel from 'models/point';
-import CreateSegmentModel from 'models/segment';
-import CreateSettingsModel from 'models/settings';
+import createCircleModel from 'models/circle';
+import createColorsModel from 'models/colors';
+import createEdgeModel from 'models/edge';
+import createGameModel from 'models/game';
+import createNodeModel from 'models/node';
+import createPathModel from 'models/path';
+import createPointModel from 'models/point';
+import createSegmentModel from 'models/segment';
+import createSettingsModel from 'models/settings';
 
-const Colors = CreateColorsModel();
-const Settings = CreateSettingsModel();
+const Colors = createColorsModel();
+const Settings = createSettingsModel();
 
 const colors = new Colors();
 const settings = new Settings({
@@ -18,13 +18,13 @@ const settings = new Settings({
   height: 600
 });
 
-const Circle = CreateCircleModel();
-const Edge = CreateEdgeModel();
-const Segment = CreateSegmentModel();
-const Path = CreatePathModel({ Segment });
-const Point = CreatePointModel();
-const Node = CreateNodeModel({ Circle, Point, settings });
-const Game = CreateGameModel({ Edge, Node, Circle, Path, Point, settings });
+const Circle = createCircleModel();
+const Edge = createEdgeModel();
+const Segment = createSegmentModel();
+const Path = createPathModel({ Segment });
+const Point = createPointModel();
+const Node = createNodeModel({ Circle, Point, settings });
+const Game = createGameModel({ Edge, Node, Circle, Path, Point, settings });
 
 const game = new Game();
 
