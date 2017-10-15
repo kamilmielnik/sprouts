@@ -41,13 +41,6 @@ class Game extends Component {
     this.onMouseMoveThrottled(event);
   };
 
-  onMouseUp = () => {
-    const { game } = this.props;
-    if (game.canBreakPath()) {
-      game.breakPath();
-    }
-  };
-
   getEventPoint({ clientX, clientY, target }) {
     const { left, top } = target.getBoundingClientRect();
     return {
@@ -65,7 +58,6 @@ class Game extends Component {
         width={settings.width}
         height={settings.height}
         onClick={this.onClick}
-        onMouseUp={this.onMouseUp}
         onMouseMove={this.onMouseMove} />
     );
   }

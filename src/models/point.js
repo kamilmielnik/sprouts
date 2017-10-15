@@ -10,6 +10,10 @@ export default () => {
       const yDifference = this.y - point.y;
       return Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
     }
+
+    equals(point) {
+      return this.x === point.x && this.y === point.y;
+    }
   }
 
   return Point;

@@ -27,14 +27,12 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
       return this.state.canAddNode && !this.anyNodeCollidesWithCircle(circle);
     }
 
-    canBreakPath(node) {
-      const { edges, selectedNode, state: { canDraw } } = this;
-      if (!canDraw || selectedNode === null) return false;
-      const path = this.path.clone();
-      if (node) {
-        path.add(node.point);
-      }
-      return path.selfCollides || edges.some((edge) => edge.path.collidesWithPath(path));
+    canBreakPath() {
+      const { edges, path, selectedNode, state: { canDraw } } = this;
+      if (!canDraw || path.head === null || selectedNode === null) return false;
+      return path.selfCollides || edges.some(
+        (edge) => edge.path.collidesWithSegment(path.headSegment)
+      );
     }
 
     canClosePath(node) {

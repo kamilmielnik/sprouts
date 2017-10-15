@@ -15,6 +15,15 @@ export default () => {
       const t = (s2.x * (p1.y - q1.y) - s2.y * (p1.x - q1.x)) / denominator;
       return s >= 0 && s <= 1 && t >= 0 && t <= 1;
     }
+
+    collidesWithOpenSegment(segment) {
+      if (!this.collidesWithSegment(segment)) return false;
+      return [ segment.start, segment.end ].every(
+        (point1) => [ this.start, this.end ].every(
+          (point2) => !point1.equals(point2)
+        )
+      );
+    }
   }
 
   return Segment;

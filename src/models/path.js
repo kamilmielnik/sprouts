@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx';
 
-const MIN_POINTS_TO_COMPARE_PATHS = 4;
+const MIN_POINTS_TO_COMPARE_PATHS = 3;
 
 export default ({ Segment }) => {
   class Path {
@@ -48,6 +48,12 @@ export default ({ Segment }) => {
       };
     }
 
+    @computed get headPoint() {
+      const { length, points } = this;
+      if (length < 1) return null;
+      return points[length - 1];
+    }
+
     @computed get headSegment() {
       const { length, points } = this;
       if (length < 2) return null;
@@ -67,23 +73,21 @@ export default ({ Segment }) => {
     }
 
     @computed get selfCollides() {
-      const { headSegment, length, segments } = this;
+      const { headSegment, segments } = this;
       if (headSegment === null) return false;
       return segments.slice(1, -2).some((segment) => headSegment.collidesWithSegment(segment));
     }
 
-    collidesWithPath(path) {
-      if (!this.isLongEnoughToCompare || !path.isLongEnoughToCompare) return false;
-      const path1SegmentsNormalized = this.segments.slice(1, -1);
-      const path2SegmentsNormalized = path.segments.slice(1, -1);
-      return path1SegmentsNormalized.some(
-        (segment1) => path.segments.some(
-          (segment2) => segment1.collidesWithSegment(segment2)
-        )
-      ) || path2SegmentsNormalized.some(
-        (segment1) => this.segments.some(
-          (segment2) => segment1.collidesWithSegment(segment2)
-        )
+    collidesWithSegment(segment) {
+      if (!this.isLongEnoughToCompare || segment === null) return false;
+      const innerSegments = this.segments.slice(1, -1);
+      const innerSegmentsCollide = innerSegments.some(
+        (pathSegment) => pathSegment.collidesWithSegment(segment)
+      );
+      if (innerSegmentsCollide) return true;
+      const outerSegments = [ ...this.segments.slice(0, 1), ...this.segments.slice(-1) ];
+      return outerSegments.some(
+        (pathSegment) => pathSegment.collidesWithOpenSegment(segment)
       );
     }
 
