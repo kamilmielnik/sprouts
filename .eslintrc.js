@@ -243,12 +243,7 @@ module.exports = {
     'one-var': ['error', 'never'],
     'one-var-declaration-per-line': ['error', 'always'],
     'operator-assignment': ['error', 'always'],
-    'operator-linebreak': ['error', 'none', {
-      'overrides': {
-        '?': 'before',
-        ':': 'before'
-      }
-    }],
+    'operator-linebreak': ['off'],
     'padded-blocks': ['error', 'never'],
     'quote-props': ['error', 'as-needed'],
     'quotes': ['error', 'single'],

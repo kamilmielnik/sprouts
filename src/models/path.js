@@ -48,12 +48,6 @@ export default ({ Segment }) => {
       };
     }
 
-    @computed get headPoint() {
-      const { length, points } = this;
-      if (length < 1) return null;
-      return points[length - 1];
-    }
-
     @computed get headSegment() {
       const { length, points } = this;
       if (length < 2) return null;
@@ -73,22 +67,27 @@ export default ({ Segment }) => {
     }
 
     @computed get selfCollides() {
-      const { headSegment, segments } = this;
-      if (headSegment === null) return false;
-      return segments.slice(1, -2).some((segment) => headSegment.collidesWithSegment(segment));
+      const { headSegment, isLongEnoughToCompare, segments } = this;
+      if (!isLongEnoughToCompare || headSegment === null) return false;
+      const innerSegments = segments.slice(1, -2);
+      const outerSegments = [
+        ...segments.slice(0, 1),
+        ...segments.slice(-2, -1)
+      ];
+      return innerSegments.some((pathSegment) => pathSegment.collidesWithSegment(headSegment))
+        || outerSegments.some((pathSegment) => pathSegment.collidesWithOpenSegment(headSegment));
     }
 
     collidesWithSegment(segment) {
-      if (!this.isLongEnoughToCompare || segment === null) return false;
-      const innerSegments = this.segments.slice(1, -1);
-      const innerSegmentsCollide = innerSegments.some(
-        (pathSegment) => pathSegment.collidesWithSegment(segment)
-      );
-      if (innerSegmentsCollide) return true;
-      const outerSegments = [ ...this.segments.slice(0, 1), ...this.segments.slice(-1) ];
-      return outerSegments.some(
-        (pathSegment) => pathSegment.collidesWithOpenSegment(segment)
-      );
+      const { isLongEnoughToCompare, segments } = this;
+      if (!isLongEnoughToCompare || segment === null) return false;
+      const innerSegments = segments.slice(1, -1);
+      const outerSegments = [
+        ...segments.slice(0, 1),
+        ...segments.slice(-1)
+      ];
+      return innerSegments.some((pathSegment) => pathSegment.collidesWithSegment(segment))
+        || outerSegments.some((pathSegment) => pathSegment.collidesWithOpenSegment(segment));
     }
 
     clone() {
