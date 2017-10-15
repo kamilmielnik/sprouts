@@ -14,10 +14,10 @@ class Edge extends Component {
   };
 
   render() {
-    const { colors, edge: { path } } = this.props;
+    const { colors, edge } = this.props;
 
     return (
-      <Path color={colors.edge} path={path} />
+      <Path color={colors.edge} path={edge.path.points} />
     );
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'utils';
 
-const NodeView = ({ color, radius, style, x, y, onMouseDown = noop, onMouseEnter = noop }) => (
+const Node = ({ color, radius, style, x, y, onMouseDown = noop, onMouseEnter = noop }) => (
   <circle
     cx={x}
     cy={y}
@@ -13,7 +13,7 @@ const NodeView = ({ color, radius, style, x, y, onMouseDown = noop, onMouseEnter
     onMouseEnter={onMouseEnter} />
 );
 
-NodeView.propTypes = {
+Node.propTypes = {
   color: PropTypes.string.isRequired,
   radius: PropTypes.number.isRequired,
   style: PropTypes.object,
@@ -23,4 +23,4 @@ NodeView.propTypes = {
   onMouseEnter: PropTypes.func
 };
 
-export default NodeView;
+export default Node;

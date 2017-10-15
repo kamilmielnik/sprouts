@@ -1,9 +1,7 @@
 import { action, computed, observable } from 'mobx';
 
-export default (settings) => {
+export default ({ Circle, Point, settings }) => {
   class Node {
-    @observable x = 0;
-    @observable y = 0;
     @observable edges = [];
     @observable isSelected = false;
 
@@ -14,7 +12,7 @@ export default (settings) => {
 
     @computed get numberOfEdges() {
       return this.edges.filter(
-        ({ source, middle, target }) => [ source, middle, target ].includes(this)
+        ({ source, target }) => [ source, target ].includes(this)
       ).length;
     }
 
@@ -34,12 +32,12 @@ export default (settings) => {
       return !this.isDead;
     }
 
-    @computed get asCircle() {
-      return {
-        x: this.x,
-        y: this.y,
-        radius: settings.nodeRadius
-      };
+    @computed get circle() {
+      return new Circle({ x: this.x, y: this.y, radius: settings.nodeRadius });
+    }
+
+    @computed get point() {
+      return new Point({ x: this.x, y: this.y });
     }
 
     @action addEdge(edge) {

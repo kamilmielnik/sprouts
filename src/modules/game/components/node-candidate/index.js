@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import NodeView from 'modules/game/components/nodes/node/view'; // TODO
+import NodeView from 'components/node';
 
 @inject('colors', 'game', 'settings')
 @observer

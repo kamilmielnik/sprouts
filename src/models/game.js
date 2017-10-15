@@ -1,5 +1,4 @@
 import { action, observable } from 'mobx';
-import { circlesCollide, pathSelfCollides, pathsCollide, getPathCenterIndex } from 'utils';
 
 const STATE_DISABLED = {
   canAddNode: false,
@@ -10,39 +9,32 @@ const STATE_ADDING_NODES = { ...STATE_DISABLED, canAddNode: true };
 const STATE_SELECTING_NODE = { ...STATE_DISABLED, canSelectNode: true };
 const STATE_DRAWING = { ...STATE_DISABLED, canDraw: true };
 
-export default (Edge, Node, settings) => {
+export default ({ Edge, Node, Circle, Path, Point, settings }) => {
   class Game {
     @observable edges = [];
     @observable nodes = [];
     @observable selectedNode = null;
-    @observable path = [];
+    @observable path = new Path();
     @observable nodeCandidate = null;
     @observable state = STATE_ADDING_NODES;
 
     anyNodeCollidesWithCircle(circle) {
-      return this.nodes.some((node) => circlesCollide(circle, {
-        x: node.x,
-        y: node.y,
-        radius: settings.nodeRadius
-      }));
+      return this.nodes.some((node) => circle.collidesWithCircle(node.circle));
     }
 
     canAddNode({ x, y }) {
-      return this.state.canAddNode && !this.anyNodeCollidesWithCircle({
-        x,
-        y,
-        radius: settings.nodeRadius
-      });
+      const circle = new Circle({ x, y, radius: settings.nodeRadius });
+      return this.state.canAddNode && !this.anyNodeCollidesWithCircle(circle);
     }
 
     canBreakPath(node) {
-      const { state: { canDraw } } = this;
-      const path = [ ...this.path.peek() ];
+      const { edges, selectedNode, state: { canDraw } } = this;
+      const path = this.path.clone();
       if (node) {
-        path.push({ x: node.x, y: node.y });
+        path.add(node.point);
       }
-      return Boolean(canDraw && (this.selectedNode !== null && (
-        pathSelfCollides(path) || this.edges.some((edge) => pathsCollide(edge.path, path))
+      return Boolean(canDraw && (selectedNode !== null && (
+        path.selfCollides || edges.some((edge) => path.collidesWithPath(edge.path))
       )));
     }
 
@@ -69,11 +61,10 @@ export default (Edge, Node, settings) => {
     }
 
     @action addEdge({ source, target, path }) {
-      const pivotIndex = getPathCenterIndex(path);
-      const pivot = path[pivotIndex];
-      const node = this.addNode(pivot);
-      const sourceEdge = new Edge({ source, target: node, path: path.slice(0, pivotIndex + 1) });
-      const targetEdge = new Edge({ source: node, target, path: path.slice(pivotIndex) });
+      const { middlePoint, halfs: { firstHalf, secondHalf } } = path;
+      const node = this.addNode(middlePoint);
+      const sourceEdge = new Edge({ source, target: node, path: firstHalf });
+      const targetEdge = new Edge({ source: node, target, path: secondHalf });
       source.addEdge(sourceEdge);
       target.addEdge(targetEdge);
       node.addEdge(sourceEdge);
@@ -83,7 +74,8 @@ export default (Edge, Node, settings) => {
     }
 
     @action addNode(position) {
-      const node = new Node(position);
+      const point = new Point(position);
+      const node = new Node(point);
       this.nodes.push(node);
       this.nodeCandidate = null;
       return node;
@@ -94,7 +86,7 @@ export default (Edge, Node, settings) => {
       this.selectedNode.isSelected = true;
       this.state = STATE_DRAWING;
       this.path.clear();
-      this.path.push({ x: node.x, y: node.y });
+      this.path.add(node.point);
     }
 
     @action deselectNode() {
@@ -107,11 +99,11 @@ export default (Edge, Node, settings) => {
       if (this.canBreakPath(node)) {
         this.breakPath();
       } else {
-        this.path.push({ x: node.x, y: node.y });
+        this.path.add(node.point);
         this.addEdge({
           source: this.selectedNode,
           target: node,
-          path: this.path.peek()
+          path: this.path
         });
         this.deselectNode();
         this.path.clear();
@@ -125,10 +117,11 @@ export default (Edge, Node, settings) => {
 
     @action draw(position) {
       const { canAddNode } = this.state;
+      const point = new Point(position);
       if (canAddNode) {
-        this.nodeCandidate = new Node(position);
+        this.nodeCandidate = new Node(point);
       } else {
-        this.path.push(position);
+        this.path.add(point);
       }
     }
   }

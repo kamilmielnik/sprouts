@@ -197,8 +197,8 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'lines-around-comment': 'off',
     'max-depth': ['error', 2],
-    'max-len': ['error', 120],
-    'max-lines': ['error', 200],
+    'max-len': ['error', 100],
+    'max-lines': ['error', 150],
     'max-nested-callbacks': ['error', 3],
     'max-params': ['error', 4],
     'max-statements': ['off', 15],
@@ -333,7 +333,9 @@ module.exports = {
     'react/no-unknown-property': 'error',
     'react/prefer-es6-class': 'error',
     // 'react/prefer-stateless-function': 'error',
-    'react/prop-types': 'error',
+    'react/prop-types': ['error', {
+      'skipUndeclared': true
+    }],
     'react/react-in-jsx-scope': 'error',
     // 'react/require-optimization': 'error',
     'react/require-render-return': 'error',

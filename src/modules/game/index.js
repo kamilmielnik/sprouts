@@ -16,19 +16,19 @@ class Game extends Component {
   };
 
   onClick = (event) => {
-    const position = this.getEventPosition(event);
+    const point = this.getEventPoint(event);
     const { game } = this.props;
-    if (game.canAddNode(position)) {
-      game.addNode(position);
+    if (game.canAddNode(point)) {
+      game.addNode(point);
     }
   };
 
   onMouseMoveThrottled = throttle((event) => {
     if (event.target.tagName === 'rect') {
-      const position = this.getEventPosition(event);
+      const point = this.getEventPoint(event);
       const { game } = this.props;
-      if (game.canDraw(position)) {
-        game.draw(position);
+      if (game.canDraw(point)) {
+        game.draw(point);
       }
       if (game.canBreakPath()) {
         game.breakPath();
@@ -48,7 +48,7 @@ class Game extends Component {
     }
   };
 
-  getEventPosition({ clientX, clientY, target }) {
+  getEventPoint({ clientX, clientY, target }) {
     const { left, top } = target.getBoundingClientRect();
     return {
       x: Math.floor(clientX - left),

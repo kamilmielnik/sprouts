@@ -1,24 +1,32 @@
+import CreateCircleModel from 'models/circle';
 import CreateColorsModel from 'models/colors';
 import CreateEdgeModel from 'models/edge';
 import CreateGameModel from 'models/game';
 import CreateNodeModel from 'models/node';
+import CreatePathModel from 'models/path';
+import CreatePointModel from 'models/point';
+import CreateSegmentModel from 'models/segment';
 import CreateSettingsModel from 'models/settings';
 
-const ColorsModel = CreateColorsModel();
-const SettingsModel = CreateSettingsModel();
+const Colors = CreateColorsModel();
+const Settings = CreateSettingsModel();
 
-const colors = new ColorsModel();
-const settings = new SettingsModel({
+const colors = new Colors();
+const settings = new Settings({
   nodeRadius: 8,
   width: 800,
   height: 600
 });
 
-const EdgeModel = CreateEdgeModel();
-const NodeModel = CreateNodeModel(settings);
-const GameModel = CreateGameModel(EdgeModel, NodeModel, settings);
+const Circle = CreateCircleModel();
+const Edge = CreateEdgeModel();
+const Segment = CreateSegmentModel();
+const Path = CreatePathModel({ Segment });
+const Point = CreatePointModel();
+const Node = CreateNodeModel({ Circle, Point, settings });
+const Game = CreateGameModel({ Edge, Node, Circle, Path, Point, settings });
 
-const game = new GameModel();
+const game = new Game();
 
 const state = {
   colors,

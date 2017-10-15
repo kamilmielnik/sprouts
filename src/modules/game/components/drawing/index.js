@@ -15,7 +15,7 @@ class Drawing extends Component {
     const { colors, game } = this.props;
 
     return (
-      <Path color={colors.path} path={game.path} />
+      <Path color={colors.path} path={game.path.points} />
     );
   }
 }
