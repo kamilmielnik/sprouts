@@ -48,6 +48,12 @@ export default ({ Segment }) => {
       };
     }
 
+    @computed get headSegment() {
+      const { length, points } = this;
+      if (length < 2) return null;
+      return new Segment(...points.slice(-2));
+    }
+
     @computed get segments() {
       const { length, points } = this;
       if (length < 2) return [];
@@ -61,9 +67,8 @@ export default ({ Segment }) => {
     }
 
     @computed get selfCollides() {
-      const { length, segments } = this;
-      if (length < 2) return false;
-      const headSegment = segments[segments.length - 1];
+      const { headSegment, length, segments } = this;
+      if (headSegment === null) return false;
       return segments.slice(1, -2).some((segment) => headSegment.collidesWithSegment(segment));
     }
 
