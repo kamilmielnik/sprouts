@@ -6,8 +6,9 @@ import Edges from './components/edges';
 import Nodes from './components/nodes';
 import NodeCandidate from './components/node-candidate';
 
-const GameView = ({ height, width, onClick, onMouseMove }) => (
+const GameView = ({ className, height, width, onClick, onMouseMove }) => (
   <svg
+    className={className}
     height={height}
     width={width}
     viewBox={`0 0 ${width} ${height}`}
@@ -22,6 +23,7 @@ const GameView = ({ height, width, onClick, onMouseMove }) => (
 );
 
 GameView.propTypes = {
+  className: PropTypes.string,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,

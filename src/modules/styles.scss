@@ -9,11 +9,26 @@
   align-items: center;
   flex-direction: column;
 
-  .controls {
-    margin-top: 20px;
+  .content {
+    display: flex;
+
+    .game {
+      margin-right: 20px;
+    }
+
+    .controls-and-settings {
+      .settings {
+
+      }
+
+      .controls {
+        margin-bottom: 20px;
+      }
+    }
   }
 
-  .statusBar {
-    margin-bottom: 20px;
+
+  .status-bar {
+    margin-top: 20px;
   }
 }
