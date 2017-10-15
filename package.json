@@ -1,6 +1,6 @@
 {
   "name": "sprouts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "\"Sprouts\" paper-and-pencil game in your browser, by Kamil Mielnik",
   "main": "src/index.js",
   "engines": {
