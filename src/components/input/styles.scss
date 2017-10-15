@@ -7,6 +7,19 @@
   .input {
     padding: 5px;
     font-size: 14px;
+    border: 1px solid #bbb;
+  }
+
+  &.disabled {
+    .label {
+      color: #bbb;
+    }
+
+    .input {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      color: #bbb;
+    }
   }
 
   margin-bottom: 10px;

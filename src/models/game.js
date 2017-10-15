@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { computed, action, observable } from 'mobx';
 
 const STATE_DISABLED = {
   canAddNode: false,
@@ -17,6 +17,10 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     @observable path = new Path();
     @observable nodeCandidate = null;
     @observable state = STATE_ADDING_NODES;
+
+    @computed get isRunning() {
+      return !this.state.canAddNode;
+    }
 
     anyNodeCollidesWithCircle(circle) {
       return this.nodes.some((node) => circle.collidesWithCircle(node.circle));
