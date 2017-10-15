@@ -27,6 +27,7 @@ export default class GameController {
   nodeMouseEnter(node) {
     if (this.game.canClosePath(node)) {
       this.game.closePath(node);
+      this.game.togglePlayerTurn();
     } else if (this.game.canBreakPath(node)) {
       this.game.breakPath();
     }

@@ -1,5 +1,8 @@
 import { computed, action, observable } from 'mobx';
 
+const player1 = Symbol('player-1');
+const player2 = Symbol('player-2');
+
 const STATE_DISABLED = {
   canAddNode: false,
   canSelectNode: false,
@@ -15,11 +18,18 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     @observable nodes = [];
     @observable selectedNode = null;
     @observable path = new Path();
+    @observable player = null;
     @observable nodeCandidate = null;
     @observable state = STATE_ADDING_NODES;
 
     @computed get isRunning() {
       return !this.state.canAddNode;
+    }
+
+    @computed get playerName() {
+      const playerName = this.player === player1 ? settings.player1Name : settings.player2Name;
+      const playerNumber = this.player === player1 ? 1 : 2;
+      return playerName || `Player ${playerNumber}`;
     }
 
     anyNodeCollidesWithCircle(circle) {
@@ -59,6 +69,11 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     @action start() {
       this.state = STATE_SELECTING_NODE;
       this.nodeCandidate = null;
+      this.player = player1;
+    }
+
+    @action togglePlayerTurn() {
+      this.player = this.player === player1 ? player2 : player1;
     }
 
     @action addEdge({ source, target, path }) {

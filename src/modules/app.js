@@ -8,15 +8,19 @@ import styles from './styles.scss';
 const App = () => (
   <div className={styles.app}>
     <div className={styles.content}>
-      <Game className={styles.game} />
+      <div className={styles.top}>
+        <StatusBar className={styles.statusBar} />
+      </div>
 
-      <div className={styles.controlsAndSettings}>
-        <Controls className={styles.controls} />
-        <Settings className={styles.settings} />
+      <div className={styles.bottom}>
+        <Game className={styles.game} />
+
+        <div className={styles.controlsAndSettings}>
+          <Controls className={styles.controls} />
+          <Settings className={styles.settings} />
+        </div>
       </div>
     </div>
-
-    <StatusBar className={styles.statusBar} />
   </div>
 );
 

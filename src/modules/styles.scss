@@ -8,27 +8,35 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
 
-  .content {
-    display: flex;
+.content {
+  width: 1000px;
+}
 
-    .game {
-      margin-right: 20px;
-    }
-
-    .controls-and-settings {
-      .settings {
-
-      }
-
-      .controls {
-        margin-bottom: 20px;
-      }
-    }
-  }
-
-
+.top {
   .status-bar {
-    margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
+
+.bottom {
+  display: flex;
+
+  .game {
+    margin-right: 20px;
+  }
+
+  .controls-and-settings {
+    flex-grow: 1;
+
+    .settings {
+
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+  }
+}
+

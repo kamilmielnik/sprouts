@@ -5,6 +5,8 @@
   }
 
   .input {
+    width: 100%;
+    box-sizing: border-box;
     padding: 5px;
     font-size: 14px;
     border: 1px solid #bbb;
@@ -19,6 +21,10 @@
       background-color: #eee;
       border: 1px solid #ccc;
       color: #bbb;
+
+      &::placeholder {
+        color: #bbb;
+      }
     }
   }
 

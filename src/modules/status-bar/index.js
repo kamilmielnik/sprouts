@@ -25,13 +25,22 @@ class StatusBar extends Component {
     return '';
   };
 
+  getPlayerName = () => {
+    const { game } = this.props;
+    if (game.state.canAddNode) {
+      return null;
+    }
+    return game.playerName;
+  };
+
   render() {
     const { className } = this.props;
 
     return (
       <StatusBarView
         className={className}
-        message={this.getMessage()} />
+        message={this.getMessage()}
+        playerName={this.getPlayerName()} />
     );
   }
 }

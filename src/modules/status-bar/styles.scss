@@ -1,3 +1,14 @@
 .status-bar {
+  display: flex;
+  justify-content: space-between;
 
+  .player-name {
+    .name {
+      font-weight: bold;
+    }
+  }
+
+  .message {
+
+  }
 }
