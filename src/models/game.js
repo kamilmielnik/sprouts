@@ -29,20 +29,19 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
 
     canBreakPath(node) {
       const { edges, selectedNode, state: { canDraw } } = this;
+      if (!canDraw || selectedNode === null) return false;
       const path = this.path.clone();
       if (node) {
         path.add(node.point);
       }
-      return Boolean(canDraw && (selectedNode !== null && (
-        path.selfCollides || edges.some((edge) => path.collidesWithPath(edge.path))
-      )));
+      return path.selfCollides || edges.some((edge) => edge.path.collidesWithPath(path));
     }
 
     canClosePath(node) {
-      const { state: { canDraw } } = this;
-      const isCreatingLoop = this.selectedNode === node;
+      const { selectedNode, state: { canDraw } } = this;
+      const isCreatingLoop = selectedNode === node;
       const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
-      return canDraw && this.selectedNode !== null && canClosePathOnNode;
+      return canDraw && selectedNode !== null && canClosePathOnNode;
     }
 
     canDraw() {
@@ -51,8 +50,8 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     }
 
     canSelectNode(node) {
-      const { state: { canSelectNode } } = this;
-      return canSelectNode && !node.isDead;
+      const { canSelectNode } = this.state;
+      return canSelectNode && node.isAlive;
     }
 
     @action start() {

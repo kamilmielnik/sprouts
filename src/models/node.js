@@ -11,9 +11,9 @@ export default ({ Circle, Point, settings }) => {
     }
 
     @computed get numberOfEdges() {
-      return this.edges.filter(
-        ({ source, target }) => [ source, target ].includes(this)
-      ).length;
+      return this.edges
+        .filter(({ source, target }) => [ source, target ].includes(this))
+        .length;
     }
 
     @computed get numberOfLiberties() {
