@@ -20,6 +20,10 @@ class Game extends Component {
     this.props.gameController.click(point);
   };
 
+  onMouseLeave = (event) => {
+    this.props.gameController.mouseLeave();
+  };
+
   onMouseMoveThrottled = throttle((event) => {
     if (event.target.tagName === 'rect') {
       const point = this.getEventPoint(event);
@@ -49,6 +53,7 @@ class Game extends Component {
         width={settings.width}
         height={settings.height}
         onClick={this.onClick}
+        onMouseLeave={this.onMouseLeave}
         onMouseMove={this.onMouseMove} />
     );
   }

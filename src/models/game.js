@@ -56,11 +56,6 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
       return canDraw && selectedNode !== null && canClosePathOnNode;
     }
 
-    canDraw() {
-      const { canAddNode, canDraw } = this.state;
-      return canDraw || canAddNode;
-    }
-
     canSelectNode(node) {
       const { canSelectNode } = this.state;
       return canSelectNode && node.isAlive;
@@ -106,8 +101,10 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     }
 
     @action deselectNode() {
-      this.selectedNode.isSelected = false;
-      this.selectedNode = null;
+      if (this.selectedNode !== null) {
+        this.selectedNode.isSelected = false;
+        this.selectedNode = null;
+      }
       this.state = STATE_SELECTING_NODE;
     }
 

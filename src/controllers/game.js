@@ -9,8 +9,14 @@ export default class GameController {
     }
   }
 
+  mouseLeave() {
+    if (this.game.state.canDraw) {
+      this.game.breakPath();
+    }
+  }
+
   mouseMove(point) {
-    if (this.game.canDraw(point)) {
+    if (this.game.state.canDraw || this.game.state.canAddNode) {
       this.game.draw(point);
     }
     if (this.game.canBreakPath()) {
