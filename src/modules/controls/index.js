@@ -3,25 +3,32 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import ControlsView from './view';
 
-@inject('gameController')
+@inject('game')
 @observer
 class Controls extends Component {
   static propTypes = {
     className: PropTypes.string,
-    gameController: PropTypes.object.isRequired
+    game: PropTypes.object.isRequired
   };
 
-  onStartGameClick = () => {
-    this.props.gameController.start();
-  };
+  onResetClick = () => this.props.game.reset();
+
+  onRestartClick = () => this.props.game.restart();
+
+  onStartClick = () => this.props.game.start();
 
   render() {
-    const { className } = this.props;
+    const { className, game } = this.props;
 
     return (
       <ControlsView
         className={className}
-        onStartGameClick={this.onStartGameClick} />
+        canStart={game.state.canStart}
+        canRestart={game.state.canRestart}
+        canReset={game.state.canReset}
+        onResetClick={this.onResetClick}
+        onRestartClick={this.onRestartClick}
+        onStartClick={this.onStartClick} />
     );
   }
 }

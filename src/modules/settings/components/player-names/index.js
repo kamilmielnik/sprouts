@@ -27,14 +27,14 @@ class PlayerNames extends Component {
     return [
       <PlayerNameView
         key="player-1"
-        disabled={game.isRunning}
+        disabled={game.state.isRunning}
         label="Player 1 name"
         placeholder="Player 1"
         value={settings.player1Name}
         onChange={this.onPlayer1NameChange} />,
       <PlayerNameView
         key="player-2"
-        disabled={game.isRunning}
+        disabled={game.state.isRunning}
         label="Player 2 name"
         placeholder="Player 2"
         value={settings.player2Name}

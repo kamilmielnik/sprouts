@@ -3,16 +3,7 @@ import { computed, action, observable } from 'mobx';
 const player1 = Symbol('player-1');
 const player2 = Symbol('player-2');
 
-const STATE_DISABLED = {
-  canAddNode: false,
-  canSelectNode: false,
-  canDraw: false
-};
-const STATE_ADDING_NODES = { ...STATE_DISABLED, canAddNode: true };
-const STATE_SELECTING_NODE = { ...STATE_DISABLED, canSelectNode: true };
-const STATE_DRAWING = { ...STATE_DISABLED, canDraw: true };
-
-export default ({ Edge, Node, Circle, Path, Point, settings }) => {
+export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
   class Game {
     @observable edges = [];
     @observable nodes = [];
@@ -20,11 +11,7 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     @observable path = new Path();
     @observable player = null;
     @observable nodeCandidate = null;
-    @observable state = STATE_ADDING_NODES;
-
-    @computed get isRunning() {
-      return !this.state.canAddNode;
-    }
+    @observable state = new GameState();
 
     @computed get playerName() {
       const playerName = this.player === player1 ? settings.player1Name : settings.player2Name;
@@ -38,31 +25,38 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
 
     canAddNode({ x, y }) {
       const circle = new Circle({ x, y, radius: settings.nodeRadius });
-      return this.state.canAddNode && !this.anyNodeCollidesWithCircle(circle);
+      return this.state.isAddingNodes && !this.anyNodeCollidesWithCircle(circle);
     }
 
     canBreakPath() {
-      const { edges, path, selectedNode, state: { canDraw } } = this;
-      if (!canDraw || path.head === null || selectedNode === null) return false;
+      const { edges, path, selectedNode, state } = this;
+      if (!state.isDrawing || path.head === null || selectedNode === null) return false;
       return path.selfCollides || edges.some(
         (edge) => edge.path.collidesWithSegment(path.headSegment)
       );
     }
 
     canClosePath(node) {
-      const { selectedNode, state: { canDraw } } = this;
+      const { selectedNode, state } = this;
       const isCreatingLoop = selectedNode === node;
       const canClosePathOnNode = isCreatingLoop ? node.canHaveLoop : node.isAlive;
-      return canDraw && selectedNode !== null && canClosePathOnNode;
+      return state.isDrawing && selectedNode !== null && canClosePathOnNode;
     }
 
     canSelectNode(node) {
-      const { canSelectNode } = this.state;
-      return canSelectNode && node.isAlive;
+      return this.state.isSelectingNode && node.isAlive;
+    }
+
+    @action reset() {
+      this.state.reset();
+    }
+
+    @action restart() {
+      this.state.restart();
     }
 
     @action start() {
-      this.state = STATE_SELECTING_NODE;
+      this.state.start();
       this.nodeCandidate = null;
       this.player = player1;
     }
@@ -84,6 +78,13 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
       this.edges.push(targetEdge);
     }
 
+    @action addInitialNode(position) {
+      const point = new Point(position);
+      const node = new Node({ ...point, isInitial: true });
+      this.nodes.push(node);
+      return node;
+    }
+
     @action addNode(position) {
       const point = new Point(position);
       const node = new Node(point);
@@ -93,19 +94,19 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     }
 
     @action selectNode(node) {
+      this.state.selectNode();
       this.selectedNode = node;
       this.selectedNode.isSelected = true;
-      this.state = STATE_DRAWING;
       this.path.clear();
       this.path.add(node.point);
     }
 
     @action deselectNode() {
+      this.state.deselectNode();
       if (this.selectedNode !== null) {
         this.selectedNode.isSelected = false;
         this.selectedNode = null;
       }
-      this.state = STATE_SELECTING_NODE;
     }
 
     @action closePath(node) {
@@ -129,13 +130,13 @@ export default ({ Edge, Node, Circle, Path, Point, settings }) => {
     }
 
     @action draw(position) {
-      const { canAddNode } = this.state;
       const point = new Point(position);
-      if (canAddNode) {
-        this.nodeCandidate = new Node(point);
-      } else {
-        this.path.add(point);
-      }
+      this.path.add(point);
+    }
+
+    @action setNodeCandidate(position) {
+      const point = new Point(position);
+      this.nodeCandidate = new Node(point);
     }
   }
 

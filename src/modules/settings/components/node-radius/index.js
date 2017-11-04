@@ -23,7 +23,7 @@ class NodeRadius extends Component {
     return (
       <NodeRadiusView
         className={className}
-        disabled={game.isRunning}
+        disabled={game.state.isRunning}
         value={settings.nodeRadius}
         onChange={this.onChange} />
     );

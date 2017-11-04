@@ -13,13 +13,13 @@ class StatusBar extends Component {
 
   getMessage = () => {
     const { game } = this.props;
-    if (game.state.canAddNode) {
+    if (game.state.isAddingNodes) {
       return 'Click on a field to place a starting point. Click the "Start game" button to begin.';
     }
-    if (game.state.canSelectNode) {
+    if (game.state.isSelectingNode) {
       return 'Click on a node to begin drawing a path.';
     }
-    if (game.state.canDraw) {
+    if (game.state.isDrawing) {
       return 'Move your mouse to draw a path. Close the path by reaching an alive node.';
     }
     return '';
@@ -27,7 +27,7 @@ class StatusBar extends Component {
 
   getPlayerName = () => {
     const { game } = this.props;
-    if (game.state.canAddNode) {
+    if (game.state.isAddingNodes) {
       return null;
     }
     return game.playerName;

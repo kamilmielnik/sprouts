@@ -1,0 +1,37 @@
+$black: #000;
+$shade-20: #222;
+$shade-40: #666;
+$shade-50: #888;
+$shade-90: #eee;
+$white: #fff;
+
+$primary: #78387f;
+$primary-hover: mix($primary, $white, 90%);
+$primary-active: mix($primary, $black, 90%);
+$primary-disabled: $shade-50;
+$inactive-overlay: rgba(0, 0, 0, 0.3);
+
+$background-dark: $shade-20;
+$background-disabled: $shade-40;
+$foreground: $shade-90;
+$foreground-hover: $white;
+
+$micro-animation-duration: 0.1s;
+
+@mixin clickable-effects() {
+  background-color: $primary;
+  color: $foreground;
+  cursor: pointer;
+  transition:
+    background-color $micro-animation-duration,
+    color $micro-animation-duration;
+
+  &:hover {
+    background-color: $primary-hover;
+    color: $foreground-hover;
+  }
+
+  &:active {
+    background-color: $primary-active;
+  }
+}

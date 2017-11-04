@@ -5,9 +5,10 @@ export default ({ Circle, Point, settings }) => {
     @observable edges = [];
     @observable isSelected = false;
 
-    constructor({ x, y }) {
+    constructor({ x, y, isInitial = false }) {
       this.x = x;
       this.y = y;
+      this.isInitial = isInitial;
     }
 
     @computed get numberOfEdges() {

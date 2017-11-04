@@ -5,19 +5,21 @@ export default class GameController {
 
   click(point) {
     if (this.game.canAddNode(point)) {
-      this.game.addNode(point);
+      this.game.addInitialNode(point);
     }
   }
 
   mouseLeave() {
-    if (this.game.state.canDraw) {
+    if (this.game.state.isDrawing) {
       this.game.breakPath();
     }
   }
 
   mouseMove(point) {
-    if (this.game.state.canDraw || this.game.state.canAddNode) {
+    if (this.game.state.isDrawing) {
       this.game.draw(point);
+    } else if (this.game.state.isAddingNodes) {
+      this.game.setNodeCandidate(point);
     }
     if (this.game.canBreakPath()) {
       this.game.breakPath();

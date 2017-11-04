@@ -3,8 +3,16 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from './styles.scss';
 
-const Button = ({ className, children, onClick }) => (
-  <div className={classNames(styles.button, className)} onClick={onClick}>
+const Button = ({ className, children, disabled, onClick }) => (
+  <div
+    className={classNames(
+      styles.button,
+      {
+        [styles.disabled]: disabled
+      },
+      className
+    )}
+    onClick={onClick}>
     {children}
   </div>
 );
@@ -12,6 +20,7 @@ const Button = ({ className, children, onClick }) => (
 Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func
 };
 
