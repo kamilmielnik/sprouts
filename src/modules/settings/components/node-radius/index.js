@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import NodeRadiusView from './view';
+import Input from 'components/input';
 
 @inject('game', 'settings')
 @observer
@@ -21,9 +21,11 @@ class NodeRadius extends Component {
     const { className, game, settings } = this.props;
 
     return (
-      <NodeRadiusView
+      <Input
         className={className}
         disabled={game.state.isRunning}
+        label="Node radius"
+        type="number"
         value={settings.nodeRadius}
         onChange={this.onChange} />
     );

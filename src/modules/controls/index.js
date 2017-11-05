@@ -1,36 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import ControlsView from './view';
+import classNames from 'classnames';
+import ResetButton from './reset-button';
+import RestartButton from './restart-button';
+import StartButton from './start-button';
+import styles from './styles.scss';
 
-@inject('game')
-@observer
-class Controls extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    game: PropTypes.object.isRequired
-  };
+const Controls = ({ className }) => (
+  <div className={classNames(styles.controls, className)}>
+    <StartButton className={styles.button} />
+    <RestartButton className={styles.button} />
+    <ResetButton className={styles.button} />
+  </div>
+);
 
-  onResetClick = () => this.props.game.reset();
-
-  onRestartClick = () => this.props.game.restart();
-
-  onStartClick = () => this.props.game.start();
-
-  render() {
-    const { className, game } = this.props;
-
-    return (
-      <ControlsView
-        className={className}
-        canStart={game.state.canStart}
-        canRestart={game.state.canRestart}
-        canReset={game.state.canReset}
-        onResetClick={this.onResetClick}
-        onRestartClick={this.onRestartClick}
-        onStartClick={this.onStartClick} />
-    );
-  }
-}
+Controls.propTypes = {
+  className: PropTypes.string
+};
 
 export default Controls;

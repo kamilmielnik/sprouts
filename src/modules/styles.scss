@@ -17,6 +17,10 @@ $spacing: 20px;
 
 .top {
   margin-bottom: $spacing;
+
+  .statusBar {
+    margin-top: $spacing;
+  }
 }
 
 .middle {

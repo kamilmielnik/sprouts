@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { inject, observer } from 'mobx-react';
-import GameView from './view';
+import Background from './background';
+import Drawing from './drawing';
+import Edges from './edges';
+import Nodes from './nodes';
+import NodeCandidate from './node-candidate';
 
 const MOUSE_MOVE_THROTTLE = 10;
 
@@ -20,7 +24,7 @@ class Game extends Component {
     this.props.gameController.click(point);
   };
 
-  onMouseLeave = (event) => {
+  onMouseLeave = () => {
     this.props.gameController.mouseLeave();
   };
 
@@ -48,13 +52,20 @@ class Game extends Component {
     const { className, settings } = this.props;
 
     return (
-      <GameView
+      <svg
         className={className}
-        width={settings.width}
         height={settings.height}
+        width={settings.width}
+        viewBox={`0 0 ${settings.width} ${settings.height}`}
         onClick={this.onClick}
         onMouseLeave={this.onMouseLeave}
-        onMouseMove={this.onMouseMove} />
+        onMouseMove={this.onMouseMove}>
+        <Background />
+        <Edges />
+        <Drawing />
+        <Nodes />
+        <NodeCandidate />
+      </svg>
     );
   }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import BackgroundView from './view';
 
 @inject('colors', 'settings')
 @observer
@@ -15,10 +14,12 @@ class Background extends Component {
     const { colors, settings } = this.props;
 
     return (
-      <BackgroundView
-        color={colors.background}
+      <rect
+        x={0}
+        y={0}
+        height={settings.height}
         width={settings.width}
-        height={settings.height} />
+        fill={colors.background} />
     );
   }
 }

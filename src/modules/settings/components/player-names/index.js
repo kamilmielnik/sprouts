@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import PlayerNameView from './view';
+import Input from 'components/input';
 
 @inject('game', 'settings')
 @observer
@@ -25,18 +25,20 @@ class PlayerNames extends Component {
     const { game, settings } = this.props;
 
     return [
-      <PlayerNameView
+      <Input
         key="player-1"
         disabled={game.state.isRunning}
         label="Player 1 name"
         placeholder="Player 1"
+        type="text"
         value={settings.player1Name}
         onChange={this.onPlayer1NameChange} />,
-      <PlayerNameView
+      <Input
         key="player-2"
         disabled={game.state.isRunning}
         label="Player 2 name"
         placeholder="Player 2"
+        type="text"
         value={settings.player2Name}
         onChange={this.onPlayer2NameChange} />
     ];

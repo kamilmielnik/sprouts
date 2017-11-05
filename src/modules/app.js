@@ -13,6 +13,7 @@ const App = () => (
       <div className={styles.content}>
         <div className={styles.top}>
           <PlayerNames />
+          <StatusBar className={styles.statusBar} />
         </div>
 
         <div className={styles.middle}>
@@ -22,10 +23,6 @@ const App = () => (
             <Controls className={styles.controls} />
             <Settings className={styles.settings} />
           </div>
-        </div>
-
-        <div className={styles.bottom}>
-          <StatusBar />
         </div>
       </div>
     </Sidebar>

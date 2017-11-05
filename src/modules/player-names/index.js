@@ -8,17 +8,19 @@ import styles from './styles.scss';
 @observer
 class PlayerNames extends Component {
   static propTypes = {
+    className: PropTypes.string,
     game: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired
   };
 
   render() {
-    const { game, settings } = this.props;
+    const { className, game, settings } = this.props;
 
     return (
-      <div className={styles.playerNames}>
+      <div className={classNames(styles.playerNames, className)}>
         <div
           className={classNames(
+            styles.name,
             styles.left,
             {
               [styles.disabled]: game.playerNumber !== 1
@@ -28,6 +30,7 @@ class PlayerNames extends Component {
         </div>
         <div
           className={classNames(
+            styles.name,
             styles.right,
             {
               [styles.disabled]: game.playerNumber !== 2
