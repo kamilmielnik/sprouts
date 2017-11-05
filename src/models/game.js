@@ -29,7 +29,7 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
       return this.state.isAddingNodes && !this.anyNodeCollidesWithCircle(circle);
     }
 
-    canBreakPath() {
+    canBreakPath(node) {
       const { edges, path, selectedNode, state } = this;
       if (!state.isDrawing || path.head === null || selectedNode === null) return false;
       return path.selfCollides || edges.some(

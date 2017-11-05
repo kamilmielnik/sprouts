@@ -39,7 +39,7 @@ export default class GameController {
     if (this.game.canClosePath(node)) {
       this.game.closePath(node);
       this.game.togglePlayerTurn();
-    } else if (this.game.canBreakPath(node)) {
+    } else if (this.game.state.isDrawing) {
       this.game.breakPath();
     }
   }

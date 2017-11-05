@@ -18,7 +18,7 @@ export default ({ Circle, Point, settings }) => {
     }
 
     @computed get numberOfLiberties() {
-      return 3 - this.numberOfEdges;
+      return settings.allowedConnections - this.numberOfEdges;
     }
 
     @computed get canHaveLoop() {
