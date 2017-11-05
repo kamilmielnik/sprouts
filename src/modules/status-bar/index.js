@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { inject, observer } from 'mobx-react';
-import StatusBarView from './view';
+import styles from './styles.scss';
 
 @inject('game')
 @observer
@@ -25,22 +26,13 @@ class StatusBar extends Component {
     return '';
   };
 
-  getPlayerName = () => {
-    const { game } = this.props;
-    if (game.state.isAddingNodes) {
-      return null;
-    }
-    return game.playerName;
-  };
-
   render() {
     const { className } = this.props;
 
     return (
-      <StatusBarView
-        className={className}
-        message={this.getMessage()}
-        playerName={this.getPlayerName()} />
+      <div className={classNames(styles.statusBar, className)}>
+        {this.getMessage()}
+      </div>
     );
   }
 }

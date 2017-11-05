@@ -13,10 +13,11 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
     @observable nodeCandidate = null;
     @observable state = new GameState();
 
-    @computed get playerName() {
-      const playerName = this.player === player1 ? settings.player1Name : settings.player2Name;
-      const playerNumber = this.player === player1 ? 1 : 2;
-      return playerName || `Player ${playerNumber}`;
+    @computed get playerNumber() {
+      if (this.state.isRunning) {
+        return this.player === player1 ? 1 : 2;
+      }
+      return null;
     }
 
     anyNodeCollidesWithCircle(circle) {
@@ -48,17 +49,27 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
     }
 
     @action reset() {
+      this.restart();
+      this.nodes.clear();
       this.state.reset();
     }
 
     @action restart() {
+      this.start();
       this.state.restart();
+      this.edges.clear();
+      this.nodes = this.nodes.filter(({ isInitial }) => isInitial);
+      this.nodes.forEach((node) => node.removeEdges());
     }
 
     @action start() {
       this.state.start();
-      this.nodeCandidate = null;
-      this.player = player1;
+      this.setRandomPlayer();
+      this.clearNodeCandidate();
+    }
+
+    @action setRandomPlayer() {
+      this.player = Math.random() > 0.5 ? player1 : player2;
     }
 
     @action togglePlayerTurn() {
@@ -89,7 +100,7 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
       const point = new Point(position);
       const node = new Node(point);
       this.nodes.push(node);
-      this.nodeCandidate = null;
+      this.clearNodeCandidate();
       return node;
     }
 
@@ -134,7 +145,11 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
       this.path.add(point);
     }
 
-    @action setNodeCandidate(position) {
+    @action clearNodeCandidate() {
+      this.nodeCandidate = null;
+    }
+
+    @action setNodeCandidateAtPoint(position) {
       const point = new Point(position);
       this.nodeCandidate = new Node(point);
     }

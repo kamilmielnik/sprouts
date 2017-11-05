@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import { inject, observer } from 'mobx-react';
 import GameView from './view';
 
-const MOUSE_MOVE_THROTTLE = 20;
+const MOUSE_MOVE_THROTTLE = 10;
 
 @inject('gameController', 'settings')
 @observer

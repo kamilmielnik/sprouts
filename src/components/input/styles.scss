@@ -9,7 +9,14 @@
     box-sizing: border-box;
     padding: 5px;
     font-size: 14px;
-    border: 1px solid #bbb;
+    border: $border;
+    border-color: $gray;
+    transition: border-color $micro-animation-duration;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+    }
   }
 
   &.disabled {

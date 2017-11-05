@@ -41,6 +41,10 @@ export default ({ Circle, Point, settings }) => {
       return new Point({ x: this.x, y: this.y });
     }
 
+    @action removeEdges() {
+      this.edges.clear();
+    }
+
     @action addEdge(edge) {
       this.edges.push(edge);
     }

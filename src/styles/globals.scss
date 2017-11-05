@@ -4,6 +4,7 @@ $shade-40: #666;
 $shade-50: #888;
 $shade-90: #eee;
 $white: #fff;
+$gray: #cdcdcd;
 
 $primary: #78387f;
 $primary-hover: mix($primary, $white, 90%);
@@ -15,8 +16,15 @@ $background-dark: $shade-20;
 $background-disabled: $shade-40;
 $foreground: $shade-90;
 $foreground-hover: $white;
+$border: 1px solid $gray;
 
 $micro-animation-duration: 0.1s;
+
+@mixin ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 @mixin clickable-effects() {
   background-color: $primary;

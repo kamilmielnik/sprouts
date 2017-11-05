@@ -13,13 +13,16 @@ export default class GameController {
     if (this.game.state.isDrawing) {
       this.game.breakPath();
     }
+    if (this.game.state.isAddingNodes) {
+      this.game.clearNodeCandidate();
+    }
   }
 
   mouseMove(point) {
     if (this.game.state.isDrawing) {
       this.game.draw(point);
     } else if (this.game.state.isAddingNodes) {
-      this.game.setNodeCandidate(point);
+      this.game.setNodeCandidateAtPoint(point);
     }
     if (this.game.canBreakPath()) {
       this.game.breakPath();

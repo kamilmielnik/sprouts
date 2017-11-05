@@ -1,0 +1,37 @@
+.player-names {
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+
+  .left, .right {
+    @include ellipsis();
+
+    flex: 1 0 50%;
+    border-bottom: 1px solid $primary;
+    transition: border-color $micro-animation-duration;
+
+    &.disabled {
+      color: $primary-disabled;
+      border-bottom-color: transparent;
+    }
+  }
+
+  .left {
+    padding-right: 10px;
+    border-right: 10px solid $primary;
+
+    &.disabled {
+      border-right-color: transparent;
+    }
+  }
+
+  .right {
+    padding-left: 10px;
+    border-left: 10px solid $primary;
+    text-align: right;
+
+    &.disabled {
+      border-left-color: transparent;
+    }
+  }
+}
