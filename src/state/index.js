@@ -27,7 +27,7 @@ const Segment = createSegmentModel();
 const Path = createPathModel({ Segment });
 const Point = createPointModel();
 const Node = createNodeModel({ Circle, Point, settings });
-const Game = createGameModel({ GameState, Edge, Node, Circle, Path, Point, settings });
+const Game = createGameModel({ Circle, GameState, Edge, Node, Path, Point, settings });
 const game = new Game();
 const gameController = new GameController(game);
 

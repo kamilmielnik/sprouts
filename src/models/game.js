@@ -3,7 +3,7 @@ import { computed, action, observable } from 'mobx';
 const player1 = Symbol('player-1');
 const player2 = Symbol('player-2');
 
-export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
+export default ({ Circle, Edge, GameState, Node, Path, Point, settings }) => {
   class Game {
     @observable edges = [];
     @observable nodes = [];
@@ -12,6 +12,13 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
     @observable player = null;
     @observable nodeCandidate = null;
     @observable state = new GameState();
+
+    @computed get isMovePossible() {
+      const aliveNodes = this.nodes.filter(({ isAlive }) => isAlive);
+      if (aliveNodes.some(({ canHaveLoop }) => canHaveLoop)) return true;
+      if (aliveNodes.length < 2) return false;
+      return true; //TODO: return false;
+    }
 
     @computed get playerNumber() {
       if (this.state.isRunning) {
@@ -31,7 +38,9 @@ export default ({ Edge, GameState, Node, Circle, Path, Point, settings }) => {
 
     canBreakPath(node) {
       const { edges, path, selectedNode, state } = this;
-      if (!state.isDrawing || path.head === null || selectedNode === null) return false;
+      if (!state.isDrawing || path.head === null || selectedNode === null) {
+        return false;
+      }
       return path.selfCollides || edges.some(
         (edge) => edge.path.collidesWithSegment(path.headSegment)
       );
